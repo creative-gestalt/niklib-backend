@@ -11,9 +11,19 @@ const unlinkAsync = promisify(fs.unlink);
 export class NiklibService {
   constructor(@InjectModel('Book') private readonly bookModel: Model<Book>) {}
 
-  async getBooks(): Promise<Book[]> {
+  async getBooks(): Promise<any> {
+    // [{ author: [{book object}, {book object}] }, { author2: [] }]
+    const final = [];
     const books = await this.bookModel.find().exec();
-    return books;
+    const reduced = books.reduce((initial, current) => {
+      initial[current.author] = initial[current.author] || [];
+      initial[current.author].push(current);
+      return initial;
+    }, {});
+    for (const author in reduced) {
+      final.push({ [author]: reduced[author] });
+    }
+    return final;
   }
 
   async getBook(bookID): Promise<Book> {
