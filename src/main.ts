@@ -3,7 +3,11 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const whitelist = ['https://gestaltarchive.com', 'http://localhost:8080'];
+  const whitelist = [
+    'https://gestaltarchive.com',
+    'https://resources-lib.gestaltarchive.com',
+    'http://localhost:8080',
+  ];
   const corsOptions = {
     origin: function (origin, callback) {
       if (whitelist.indexOf(origin) !== -1) {
