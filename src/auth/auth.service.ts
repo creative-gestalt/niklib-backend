@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import serviceAccount from '../../auth/niklib-firebase-adminsdk-xf2fy-cdc567ac43.json';
+import serviceAccount from '../../auth/niklib-firebase-adminsdk-xf2fy-64147639b1.json';
 import { ServiceAccount } from 'firebase-admin/lib/credential';
 
 @Injectable()
