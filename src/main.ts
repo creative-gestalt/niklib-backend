@@ -3,9 +3,17 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: 'https://gestaltarchive.com',
-  });
+  const whitelist = ['https://gestaltarchive.com', 'http://localhost:8080'];
+  const corsOptions = {
+    origin: function (origin, callback) {
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  };
+  app.enableCors(corsOptions);
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
