@@ -25,10 +25,14 @@ import {
 import { diskStorage } from 'multer';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthQueryGuard } from '../auth/auth-query.guard';
+import { AuthService } from '../auth/auth.service';
 
 @Controller('niklib')
 export class NiklibController {
-  constructor(private niklibService: NiklibService) {}
+  constructor(
+    private niklibService: NiklibService,
+    private authService: AuthService,
+  ) {}
 
   @UseGuards(AuthGuard)
   @Get('books')
@@ -82,7 +86,7 @@ export class NiklibController {
         filename: editFileName,
       }),
       fileFilter: readerFileFilter,
-    })
+    }),
   )
   async uploadFile(@Res() res, @UploadedFile() file: Express.Multer.File) {
     return res.status(HttpStatus.OK).json({
@@ -97,7 +101,7 @@ export class NiklibController {
   async editBook(
     @Res() res,
     @Query('bookID', new ValidateObjectId()) bookID,
-    @Body() addBookDTO: AddBookDTO
+    @Body() addBookDTO: AddBookDTO,
   ) {
     const editedBook = await this.niklibService.editBook(bookID, addBookDTO);
     if (!editedBook) throw new NotFoundException('Book does not exist!');
@@ -111,7 +115,7 @@ export class NiklibController {
   @Delete('/delete')
   async deleteBook(
     @Res() res,
-    @Query('bookID', new ValidateObjectId()) bookID
+    @Query('bookID', new ValidateObjectId()) bookID,
   ) {
     const deletedBook = await this.niklibService.deleteBook(bookID);
     if (!deletedBook) throw new NotFoundException('Book does not exist!');

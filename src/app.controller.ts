@@ -24,6 +24,12 @@ export class AppController {
     return res.status(HttpStatus.OK).json(valid);
   }
 
+  @Post('logout')
+  async invalidateUser(@Res() res, @Body() body: Record<string, string>) {
+    const invalid = await this.authService.invalidateUser(body.token);
+    return res.status(HttpStatus.OK).json(invalid);
+  }
+
   @Post('userCheck')
   async checkUserSignUp(@Res() res, @Body() data: Record<string, string>) {
     const accepted = await this.authService.checkUser(data.user);
