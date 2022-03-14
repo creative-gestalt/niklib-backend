@@ -25,14 +25,10 @@ import {
 import { diskStorage } from 'multer';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthQueryGuard } from '../auth/auth-query.guard';
-import { AuthService } from '../auth/auth.service';
 
 @Controller('niklib')
 export class NiklibController {
-  constructor(
-    private niklibService: NiklibService,
-    private authService: AuthService,
-  ) {}
+  constructor(private niklibService: NiklibService) {}
 
   @UseGuards(AuthGuard)
   @Get('books')
