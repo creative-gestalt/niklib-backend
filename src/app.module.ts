@@ -10,10 +10,13 @@ const url = 'localhost';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(`mongodb://${url}/niklib`, {
-      useNewUrlParser: true,
-      useFindAndModify: false,
-    }),
+    MongooseModule.forRoot(
+      `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${url}/niklib`,
+      {
+        useNewUrlParser: true,
+        useFindAndModify: false,
+      },
+    ),
     NiklibModule,
   ],
   controllers: [AppController],
